@@ -8,13 +8,13 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/signin',
-    component: () => import('layouts/SignIn.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/SignInPage.vue') }],
   },
   {
     path: '/signup',
-    component: () => import('layouts/SignUp.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/SignUpPage.vue') }],
   },
 
   {
