@@ -14,7 +14,7 @@
         <button>Submit</button>
       </div>
     </q-form>
-    <div><label class="alert">{{ err }}</label></div>
+    <div class="error"><label class="alert">{{ err }}</label></div>
   </q-page>
 </template>
 
@@ -51,6 +51,7 @@ form {
   background: white;
   padding: 0 30px;
   border-radius: 10px;
+  width: 20rem;
 }
 
 label {
@@ -65,6 +66,13 @@ label {
 
 label.alert {
   color: red;
+  position: absolute;
+}
+
+.error {
+  position: relative;
+  width: 20rem;
+  padding: 0 30px;
 }
 
 input {

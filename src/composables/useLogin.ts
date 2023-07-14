@@ -10,9 +10,6 @@ const login = async (email: string, password: string) => {
     const res = await axios
       .post('http://localhost:3000/auth/signin', { email, password }
       );
-    if (!res) {
-      throw new Error('Incorrect login credentials');
-    }
     const { accessToken, exp, ...user } = res.data as AuthResponse;
     sessionStorage.setItem('accessToken', accessToken);
     sessionStorage.setItem('exp', exp + '');
@@ -20,8 +17,7 @@ const login = async (email: string, password: string) => {
     err.value = null;
     return res;
   } catch (e) {
-    const error = e as AxiosError;
-    err.value = error.message;
+    err.value = 'Incorrect login credentials';
     console.log(e);
   }
 };
