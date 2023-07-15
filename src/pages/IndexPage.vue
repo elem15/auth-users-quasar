@@ -1,49 +1,27 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="column items-start justify-start" v-if="profile">
+    <h5>Email: {{ profile.email }}</h5>
+    <p v-if="profile.name">Name: {{ profile.name }}</p>
+    <p v-if="profile.phone">Phone: {{ profile.phone }}</p>
+    <p v-if="profile.address">Address: {{ profile.address }}</p>
+    <p v-if="profile.about">About: {{ profile.about }}</p>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { defineComponent, ref } from 'vue';
+import { Ref, defineComponent, onMounted, ref } from 'vue';
+import useProfile from '../composables/useProfile';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
+  components: {},
+  setup() {
+    const { getProfile, err, profile } = useProfile();
+    onMounted(async () => {
+      await getProfile()
+    })
+    console.log(profile)
+    return { profile };
   }
 });
 </script>

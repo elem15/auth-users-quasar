@@ -1,19 +1,17 @@
-import axios, { AxiosError } from 'axios';
+import { api } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
 
 const err: Ref = ref(null);
 
 const login = async (email: string, password: string) => {
-  console.log(email, password)
   err.value = null;
   try {
-    const res = await axios
-      .post('http://localhost:3000/auth/signin', { email, password }
+    const res = await api
+      .post('/auth/signin', { email, password }
       );
-    const { accessToken, exp, ...user } = res.data as AuthResponse;
-    sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem('exp', exp + '');
-    localStorage.setItem('user', JSON.stringify(user));
+    const { refreshToken, ...user } = res.data as AuthResponse;
+    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('refreshToken', refreshToken);
     err.value = null;
     return res;
   } catch (e) {
