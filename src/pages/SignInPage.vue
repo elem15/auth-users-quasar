@@ -1,4 +1,7 @@
 <template>
+  <div v-if="isLoading">
+    <LoadingSpinner />
+  </div>
   <q-page class="items-center justify-center column">
     <h3>Sign In</h3>
     <q-form @submit.prevent="handleSubmit">
@@ -21,13 +24,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import useLogin from '../composables/useLogin';
+import LoadingSpinner from 'src/components/Spinner.vue';
 import { useRouter } from 'vue-router';
 export default defineComponent({
   name: 'SignInPage',
-  components: {},
+  components: { LoadingSpinner },
   setup() {
     const router = useRouter();
-    const { err, login } = useLogin();
+    const { err, login, isLoading } = useLogin();
     const email = ref('');
     const password = ref('');
     const handleSubmit = async () => {
@@ -40,7 +44,8 @@ export default defineComponent({
       email,
       password,
       handleSubmit,
-      err
+      err,
+      isLoading
     }
   },
 });

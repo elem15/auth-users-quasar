@@ -5,26 +5,26 @@ import { setAuthStorage } from './setAuthStorage';
 const err: Ref = ref(null);
 const isLoading = ref(false);
 
-const login = async (email: string, password: string) => {
+const signUp = async (email: string, password: string) => {
   err.value = null;
   isLoading.value = true;
   try {
     const res = await api
-      .post('/auth/signin', { email, password }
+      .post('/auth/signup', { email, password }
       );
     setAuthStorage(res.data);
     err.value = null;
     isLoading.value = false;
     return res;
   } catch (e) {
-    err.value = 'Incorrect login credentials';
+    err.value = 'User already exist';
     console.log(e);
     isLoading.value = false;
   }
 };
 
-const useLogin = () => {
-  return { err, login, isLoading };
+const useSignUp = () => {
+  return { err, signUp, isLoading };
 };
 
-export default useLogin;
+export default useSignUp;

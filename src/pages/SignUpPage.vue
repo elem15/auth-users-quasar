@@ -1,14 +1,53 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <h1>Sign Up</h1>
+  <div v-if="isLoading">
+    <LoadingSpinner />
+  </div>
+  <q-page class="items-center justify-center column">
+    <h3>Sign Up</h3>
+    <q-form @submit.prevent="handleSubmit">
+      <div>
+        <label for="">Email</label>
+        <input type="email" v-model="email" required />
+      </div>
+      <div>
+        <label for="">Password</label>
+        <input type="password" minlength="5" v-model="password" required />
+      </div>
+      <div class="button-wrapper">
+        <button>Submit</button>
+      </div>
+    </q-form>
+    <div class="error"><label class="alert">{{ err }}</label></div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
+import { defineComponent, ref } from 'vue';
+import useSignUp from '../composables/useSignUp';
+import LoadingSpinner from 'src/components/Spinner.vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
-  name: 'SignUpPage',
-  components: {},
+  name: 'SignInPage',
+  components: { LoadingSpinner },
+  setup() {
+    const router = useRouter();
+    const { err, signUp, isLoading } = useSignUp();
+    const email = ref('');
+    const password = ref('');
+    const handleSubmit = async () => {
+      await signUp(email.value, password.value);
+      if (!err.value) {
+        router.push('/');
+      }
+    }
+    return {
+      email,
+      password,
+      handleSubmit,
+      err,
+      isLoading
+    }
+  },
 });
 </script>
+

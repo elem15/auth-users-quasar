@@ -19,14 +19,13 @@ declare module '@vue/runtime-core' {
 const api = axios.create({ baseURL: HOST });
 const authApi = axios.create({ baseURL: HOST });
 authApi.interceptors.request.use(async (config) => {
-  const user = sessionStorage.getItem('user');
-  if (!user) throw new Error('User not saved')
-  const { exp } = JSON.parse(user);
-  let { accessToken } = JSON.parse(user);
-  if (exp <= Date.now() - 1000) {
-    console.log('expired')
-    const refreshToken = localStorage.getItem('refreshToken')
+  const exp = sessionStorage.getItem('exp');
+  let accessToken = sessionStorage.getItem('accessToken');
+  if (!exp || +exp <= Date.now() - 1000) {
     try {
+      const user = localStorage.getItem('user');
+      if (!user) throw new Error('User not saved');
+      const { refreshToken } = JSON.parse(user);
       const res = await api.get('/auth/refresh', { headers: { Authorization: `Bearer ${refreshToken}` } });
       setAuthStorage(res.data);
       accessToken = res.data.accessToken;

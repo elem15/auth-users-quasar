@@ -1,5 +1,6 @@
 export const setAuthStorage = (data: AuthResponse) => {
-  const { refreshToken, ...user } = data;
-  sessionStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('refreshToken', refreshToken);
+  const { accessToken, exp, ...user } = data;
+  sessionStorage.setItem('accessToken', accessToken);
+  sessionStorage.setItem('exp', exp + '');
+  localStorage.setItem('user', JSON.stringify(user));
 }
