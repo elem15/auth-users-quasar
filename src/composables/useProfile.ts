@@ -1,4 +1,4 @@
-import { api } from 'src/boot/axios';
+import { authApi } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
 
 const err: Ref = ref(null);
@@ -8,11 +8,9 @@ const getProfile = async () => {
   try {
     const user = sessionStorage.getItem('user');
     if (!user) throw new Error('User not saved')
-    const { accessToken, userId } = JSON.parse(user);
-    const res = await api
-      .get(`/user/${userId}`,
-        { headers: { 'Authorization': `Bearer ${accessToken}` } }
-      );
+    const { userId } = JSON.parse(user);
+    const res = await authApi
+      .get(`/user/${userId}`);
     err.value = null;
     profile.value = res.data;
   } catch (e) {

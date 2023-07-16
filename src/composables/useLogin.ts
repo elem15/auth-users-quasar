@@ -1,5 +1,6 @@
 import { api } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
+import { setAuthStorage } from './setAuthStorage';
 
 const err: Ref = ref(null);
 
@@ -9,9 +10,7 @@ const login = async (email: string, password: string) => {
     const res = await api
       .post('/auth/signin', { email, password }
       );
-    const { refreshToken, ...user } = res.data as AuthResponse;
-    sessionStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('refreshToken', refreshToken);
+    setAuthStorage(res.data);
     err.value = null;
     return res;
   } catch (e) {

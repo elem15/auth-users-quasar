@@ -9,18 +9,20 @@
 </template>
 
 <script lang="ts">
-import { Ref, defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import useProfile from '../composables/useProfile';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'IndexPage',
   components: {},
   setup() {
+    const router = useRouter()
     const { getProfile, err, profile } = useProfile();
     onMounted(async () => {
       await getProfile()
+      if (err.value) router.push('/signin')
     })
-    console.log(profile)
     return { profile };
   }
 });
