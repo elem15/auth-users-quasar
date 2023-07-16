@@ -1,4 +1,9 @@
-export const setAuthStorage = (data: AuthResponse) => {
+export const setAuthStorage = (data?: AuthResponse) => {
+  if (!data) {
+    sessionStorage.clear();
+    localStorage.removeItem('user');
+    return;
+  }
   const { accessToken, exp, ...user } = data;
   sessionStorage.setItem('accessToken', accessToken);
   sessionStorage.setItem('exp', exp + '');

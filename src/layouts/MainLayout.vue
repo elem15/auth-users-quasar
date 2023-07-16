@@ -8,7 +8,7 @@
         <nav>
           <RouterLink to="/signin">Sign in</RouterLink>
           <RouterLink to="/signup">Sign up</RouterLink>
-          <RouterLink to="/signin">Log out</RouterLink>
+          <button @click="handleLogout" class="link">Log out</button>
         </nav>
       </q-toolbar>
     </q-header>
@@ -26,22 +26,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import useLogOut from 'src/composables/useLogOut';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
   name: 'MainLayout',
-
-  components: {
-
-  },
-
   setup() {
-    const leftDrawerOpen = ref(false)
-
+    const router = useRouter();
+    const { err, logOut } = useLogOut()
+    const handleLogout = async () => {
+      await logOut();
+      if (!err.value) router.push('/signin')
+    }
     return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      handleLogout
     }
   }
 });
@@ -88,6 +86,19 @@ a {
 }
 
 a:hover {
+  color: plum;
+}
+
+.link {
+  display: inline-block;
+  color: darkblue;
+  border: none;
+  background: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.link:hover {
   color: plum;
 }
 
