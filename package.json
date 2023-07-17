@@ -6,14 +6,15 @@
   "author": "Elem <elem15@yandex.ru>",
   "private": true,
   "scripts": {
-    "start": "node dist/ssr/index.js",
+    "start": "quasar serve dist/spa",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build -m ssr"
+    "build": "npm i @quasar/cli -g && quasar build -m spa"
   },
   "dependencies": {
+    "@quasar/cli": "^2.2.1",
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
     "http-server": "^14.1.1",

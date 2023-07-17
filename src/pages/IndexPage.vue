@@ -3,6 +3,7 @@
     <LoadingSpinner />
   </div>
   <div v-if="!isEdit">
+    <div class="error"><label class="alert">{{ err }}</label></div>
     <ProfileView v-if="profile" :profile="profile" :toggleEditMode="toggleEditMode" />
   </div>
   <div v-else>
