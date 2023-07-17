@@ -14,6 +14,9 @@
     </q-header>
 
     <q-page-container>
+      <div v-if="isLoading">
+        <Spinner />
+      </div>
       <router-view />
     </q-page-container>
     <q-footer>
@@ -27,19 +30,22 @@
 
 <script lang="ts">
 import useLogOut from 'src/composables/useLogOut';
+import Spinner from 'src/components/Spinner.vue';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 export default defineComponent({
   name: 'MainLayout',
+  components: { Spinner },
   setup() {
     const router = useRouter();
-    const { err, logOut } = useLogOut()
+    const { err, logOut, isLoading } = useLogOut()
     const handleLogout = async () => {
       await logOut();
       if (!err.value) router.push('/signin')
     }
     return {
-      handleLogout
+      handleLogout,
+      isLoading,
     }
   }
 });

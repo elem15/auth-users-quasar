@@ -3,7 +3,7 @@
     <LoadingSpinner />
   </div>
   <q-page class="items-center justify-center column">
-    <h3>Sign Up</h3>
+    <h1 class="text-h5">Sign Up</h1>
     <q-form @submit.prevent="handleSubmit">
       <div>
         <label for="">Email</label>
@@ -27,7 +27,7 @@ import useSignUp from '../composables/useSignUp';
 import LoadingSpinner from 'src/components/Spinner.vue';
 import { useRouter } from 'vue-router';
 export default defineComponent({
-  name: 'SignInPage',
+  name: 'SignUpPage',
   components: { LoadingSpinner },
   setup() {
     const router = useRouter();

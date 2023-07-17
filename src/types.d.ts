@@ -6,7 +6,7 @@ type AuthResponse = {
   userId: number;
 }
 type UserUpdate = {
-  email?: string;
+  password?: string;
   name?: string;
   phone?: string;
   address?: string;

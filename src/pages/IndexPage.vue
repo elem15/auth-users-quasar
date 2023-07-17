@@ -2,20 +2,27 @@
   <div v-if="isLoading">
     <LoadingSpinner />
   </div>
-  <ProfileView v-if="profile" :profile="profile" :goToProfilePatch="goToProfilePatch" />
+  <div v-if="!isEdit">
+    <ProfileView v-if="profile" :profile="profile" :toggleEditMode="toggleEditMode" />
+  </div>
+  <div v-else>
+    <ProfilePatch v-if="profile" :profile="profile" :toggleEditMode="toggleEditMode" />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onUnmounted } from 'vue';
+import { defineComponent, onBeforeMount, onUnmounted, ref } from 'vue';
 import useProfile from '../composables/useProfile';
 import LoadingSpinner from 'src/components/Spinner.vue'
 import ProfileView from 'src/components/ProfileView.vue'
+import ProfilePatch from 'src/components/ProfilePatch.vue'
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { LoadingSpinner, ProfileView },
+  components: { LoadingSpinner, ProfileView, ProfilePatch },
   setup() {
+    const isEdit = ref(false);
     const router = useRouter()
     const { getProfile, err, profile, isLoading } = useProfile();
     onBeforeMount(async () => {
@@ -25,11 +32,10 @@ export default defineComponent({
     onUnmounted(() => {
       profile.value = null;
     })
-
-    const goToProfilePatch = () => {
-      router.push('/profile')
+    const toggleEditMode = () => {
+      isEdit.value = !isEdit.value;
     }
-    return { profile, err, isLoading, goToProfilePatch };
+    return { profile, err, isLoading, toggleEditMode, isEdit };
   }
 });
 </script>

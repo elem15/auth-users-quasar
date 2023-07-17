@@ -3,7 +3,7 @@ import { Ref, ref } from 'vue';
 import { setAuthStorage } from './setAuthStorage';
 
 const err: Ref = ref(null);
-const isLoading = ref(false);
+const isLoading: Ref = ref(false);
 
 const logOut = async () => {
   err.value = null;
@@ -18,6 +18,7 @@ const logOut = async () => {
     console.log(e);
     isLoading.value = false;
   }
+
 };
 
 const useLogOut = () => {

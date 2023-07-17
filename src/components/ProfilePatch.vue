@@ -4,26 +4,26 @@
   </div>
   <div class="error"><label class="alert">{{ err }}</label></div>
   <q-page class="items-center justify-center column">
-    <h3>Edit profile</h3>
     <q-form @submit.prevent="handleSubmit">
+      <h1 class="text-h5">Edit profile</h1>
       <div>
-        <label for="">Email</label>
-        <input type="email" v-model="email" />
+        <label>Name</label>
+        <input type="name" v-model="name" />
       </div>
       <div>
-        <label for="">Password</label>
+        <label>Password</label>
         <input type="password" minlength="5" v-model="password" />
       </div>
       <div>
-        <label for="">Phone</label>
+        <label>Phone</label>
         <input type="tel" minlength="8" v-model="phone" />
       </div>
       <div>
-        <label for="">Address</label>
+        <label>Address</label>
         <input type="text" minlength="8" v-model="address" />
       </div>
       <div>
-        <label for="">About</label>
+        <label>About</label>
         <textarea minlength="8" v-model="about" />
       </div>
       <div class="button-wrapper">
@@ -34,23 +34,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, toRefs } from 'vue';
 import useProfilePatch from '../composables/useProfilePatch';
 import LoadingSpinner from 'src/components/Spinner.vue';
-import { useRouter } from 'vue-router';
 export default defineComponent({
-  name: 'SignInPage',
+  name: 'ProfilePatch',
   components: { LoadingSpinner },
-  setup() {
-    const router = useRouter();
+  props: ['profile', 'toggleEditMode'],
+  setup(props) {
     const { err, patchProfile, isLoading } = useProfilePatch();
-    const email = ref('');
+    const { name, phone, address, about, email } = toRefs(props.profile);
     const password = ref('');
-    const phone = ref('');
-    const about = ref('');
-    const address = ref('')
     const handleSubmit = async () => {
       const userUpdate = {
+        name: name.value,
         email: email.value,
         password: password.value,
         phone: phone.value,
@@ -59,12 +56,13 @@ export default defineComponent({
       }
       await patchProfile(userUpdate);
       if (!err.value) {
-        router.push('/');
+        props.toggleEditMode();
       }
     }
     return {
       email,
       password,
+      name,
       handleSubmit,
       err,
       isLoading,
@@ -75,6 +73,4 @@ export default defineComponent({
   },
 });
 </script>
-
-<style src="./pages.styles.css"></style>
 

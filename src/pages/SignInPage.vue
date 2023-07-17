@@ -3,7 +3,7 @@
     <LoadingSpinner />
   </div>
   <q-page class="items-center justify-center column">
-    <h3>Sign In</h3>
+    <h1 class="text-h5">Sign In</h1>
     <q-form @submit.prevent="handleSubmit">
       <div>
         <label for="">Email</label>

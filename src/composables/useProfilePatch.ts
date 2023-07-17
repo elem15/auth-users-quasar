@@ -12,10 +12,8 @@ const patchProfile = async (userUpdate: UserUpdate) => {
     const user = localStorage.getItem('user');
     if (!user) throw new Error('User not saved')
     const { userId } = JSON.parse(user);
-    for (const key in userUpdate) {
-      if (!userUpdate[key as keyof UserUpdate]) {
-        delete userUpdate[key as keyof UserUpdate];
-      }
+    if (!userUpdate.password) {
+      delete userUpdate.password;
     }
     const res = await authApi
       .patch(`/user/${userId}`, userUpdate);
