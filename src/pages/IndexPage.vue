@@ -2,33 +2,30 @@
   <div v-if="isLoading">
     <LoadingSpinner />
   </div>
-  <q-page class="column items-start justify-start" v-if="profile">
-    <h5>User profile</h5>
-    <p>email: {{ profile.email }}</p>
-    <p v-if="profile.name">name: {{ profile.name }}</p>
-    <p v-if="profile.phone">phone: {{ profile.phone }}</p>
-    <p v-if="profile.address">address: {{ profile.address }}</p>
-    <p v-if="profile.about">about: {{ profile.about }}</p>
-    <button @click="goToProfilePatch">Edit profile</button>
-  </q-page>
+  <ProfileView v-if="profile" :profile="profile" :goToProfilePatch="goToProfilePatch" />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onBeforeMount, onUnmounted } from 'vue';
 import useProfile from '../composables/useProfile';
 import LoadingSpinner from 'src/components/Spinner.vue'
+import ProfileView from 'src/components/ProfileView.vue'
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { LoadingSpinner },
+  components: { LoadingSpinner, ProfileView },
   setup() {
     const router = useRouter()
     const { getProfile, err, profile, isLoading } = useProfile();
-    onMounted(async () => {
+    onBeforeMount(async () => {
       await getProfile()
       if (err.value) router.push('/signin')
     })
+    onUnmounted(() => {
+      profile.value = null;
+    })
+
     const goToProfilePatch = () => {
       router.push('/profile')
     }

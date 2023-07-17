@@ -24,7 +24,7 @@ const patchProfile = async (userUpdate: UserUpdate) => {
     isLoading.value = false;
     return res.data;
   } catch (e) {
-    err.value = 'Incorrect login credentials';
+    err.value = 'Error data updated';
     console.log(e);
     isLoading.value = false;
   }

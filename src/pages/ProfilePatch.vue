@@ -2,6 +2,7 @@
   <div v-if="isLoading">
     <LoadingSpinner />
   </div>
+  <div class="error"><label class="alert">{{ err }}</label></div>
   <q-page class="items-center justify-center column">
     <h3>Edit profile</h3>
     <q-form @submit.prevent="handleSubmit">
@@ -19,17 +20,16 @@
       </div>
       <div>
         <label for="">Address</label>
-        <input type="text" minlength="5" v-model="address" />
+        <input type="text" minlength="8" v-model="address" />
       </div>
       <div>
         <label for="">About</label>
-        <textarea minlength="5" v-model="about" />
+        <textarea minlength="8" v-model="about" />
       </div>
       <div class="button-wrapper">
         <button>Submit</button>
       </div>
     </q-form>
-    <div class="error"><label class="alert">{{ err }}</label></div>
   </q-page>
 </template>
 
