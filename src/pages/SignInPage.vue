@@ -59,4 +59,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./pages.styles.css"></style>
+<style src="src/css/pages.styles.css"></style>
