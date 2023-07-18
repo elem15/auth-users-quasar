@@ -17,7 +17,7 @@
       <div>
         <label>Confirm Password</label>
         <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" :pattern="password" v-model="passwordCnf"
-          title="Password mismatch | Пароли не совпадают" />
+          title="Password mismatch | Пароли не совпадают" :required="password ? true : false" />
         <div>
           <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
             Password</label>
