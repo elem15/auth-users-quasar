@@ -6,12 +6,16 @@
     <h1 class="text-h5">Sign In</h1>
     <q-form @submit.prevent="handleSubmit">
       <div>
-        <label for="">Email</label>
+        <label>Email</label>
         <input type="email" v-model="email" required />
       </div>
       <div>
-        <label for="">Password</label>
-        <input type="password" minlength="5" v-model="password" required />
+        <label>Password</label>
+        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" required />
+        <div>
+          <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
+            Password</label>
+        </div>
       </div>
       <div class="button-wrapper">
         <button>Submit</button>
@@ -34,6 +38,7 @@ export default defineComponent({
     const { err, login, isLoading } = useLogin();
     const email = ref('');
     const password = ref('');
+    const passwordVisibility = ref(false)
     const handleSubmit = async () => {
       await login(email.value, password.value);
       if (!err.value) {
@@ -45,7 +50,8 @@ export default defineComponent({
       password,
       handleSubmit,
       err,
-      isLoading
+      isLoading,
+      passwordVisibility
     }
   },
 });

@@ -10,8 +10,17 @@
         <input type="email" v-model="email" required />
       </div>
       <div>
-        <label for="">Password</label>
-        <input type="password" minlength="5" v-model="password" required />
+        <label>Password</label>
+        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" required />
+      </div>
+      <div>
+        <label>Confirm Password</label>
+        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" :pattern="password" v-model="passwordCnf"
+          title="Password mismatch | Пароли не совпадают" />
+        <div>
+          <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
+            Password</label>
+        </div>
       </div>
       <div class="button-wrapper">
         <button>Submit</button>
@@ -34,6 +43,8 @@ export default defineComponent({
     const { err, signUp, isLoading } = useSignUp();
     const email = ref('');
     const password = ref('');
+    const passwordVisibility = ref(false)
+    const passwordCnf = ref('');
     const handleSubmit = async () => {
       await signUp(email.value, password.value);
       if (!err.value) {
@@ -45,7 +56,9 @@ export default defineComponent({
       password,
       handleSubmit,
       err,
-      isLoading
+      isLoading,
+      passwordVisibility,
+      passwordCnf
     }
   },
 });

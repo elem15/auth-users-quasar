@@ -12,7 +12,16 @@
       </div>
       <div>
         <label>Password</label>
-        <input type="password" minlength="5" v-model="password" />
+        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" />
+      </div>
+      <div>
+        <label>Confirm Password</label>
+        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" :pattern="password" v-model="passwordCnf"
+          title="Password mismatch | Пароли не совпадают" />
+        <div>
+          <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
+            Password</label>
+        </div>
       </div>
       <div>
         <label>Phone</label>
@@ -42,9 +51,11 @@ export default defineComponent({
   components: { LoadingSpinner },
   props: ['profile', 'toggleEditMode'],
   setup(props) {
+    const passwordVisibility = ref(false)
+    const passwordCnf = ref('');
+    const password = ref('');
     const { err, patchProfile, isLoading } = useProfilePatch();
     const { name, phone, address, about, email } = toRefs(props.profile);
-    const password = ref('');
     const handleSubmit = async () => {
       const userUpdate = {
         name: name.value,
@@ -68,7 +79,9 @@ export default defineComponent({
       isLoading,
       phone,
       about,
-      address
+      address,
+      passwordCnf,
+      passwordVisibility
     }
   },
 });
