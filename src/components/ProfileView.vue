@@ -1,30 +1,32 @@
 <template>
   <q-page class="column items-center justify-start">
     <section>
-      <h1 class="text-h5">User profile</h1>
-      <div>
-        <h6>email:</h6>
-        <p>{{ email }}</p>
-      </div>
-      <div v-if="name">
-        <h6>name</h6>
-        <p>{{ name }}</p>
-      </div>
-      <div v-if="phone">
-        <h6>phone</h6>
-        <p>{{ phone }}</p>
-      </div>
-      <div v-if="address">
-        <h6>address</h6>
-        <p>{{ address }}</p>
-      </div>
-      <div v-if="about">
-        <h6>about</h6>
-        <p>{{ about }}</p>
-      </div>
-      <div class="button-wrapper">
-        <button @click="toggleEditMode">Edit profile</button>
-      </div>
+      <h1 class="text-h5 items-left">User profile</h1>
+      <article>
+        <div>
+          <h6>email:</h6>
+          <p>{{ email }}</p>
+        </div>
+        <div v-if="name">
+          <h6>name</h6>
+          <p>{{ name }}</p>
+        </div>
+        <div v-if="phone">
+          <h6>phone</h6>
+          <p>{{ phone }}</p>
+        </div>
+        <div v-if="address">
+          <h6>address</h6>
+          <p>{{ address }}</p>
+        </div>
+        <div v-if="about">
+          <h6>about</h6>
+          <p>{{ about }}</p>
+        </div>
+        <div class="button-wrapper">
+          <button @click="toggleEditMode">Edit profile</button>
+        </div>
+      </article>
     </section>
   </q-page>
 </template>
@@ -53,6 +55,10 @@ section {
 
 p {
   padding: 10px;
+}
+
+article {
+  padding-left: 2rem;
 }
 </style>
 

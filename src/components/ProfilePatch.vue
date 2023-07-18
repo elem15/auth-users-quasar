@@ -4,57 +4,73 @@
   </div>
   <div class="error"><label class="alert">{{ err }}</label></div>
   <q-page class="items-center justify-center column">
-    <q-form @submit.prevent="handleSubmit">
+    <section>
+      <div class="button-close" @click="toggleEditMode">⨉</div>
       <h1 class="text-h5">Edit profile</h1>
-      <div>
-        <label>Name</label>
-        <input type="name" v-model="name" />
-      </div>
-      <div>
-        <label>Password</label>
-        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" />
-      </div>
-      <div>
-        <label>Confirm Password</label>
-        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" :pattern="password" v-model="passwordCnf"
-          title="Password mismatch | Пароли не совпадают" :required="password ? true : false" />
+      <q-form @submit.prevent="handleSubmit">
         <div>
-          <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
-            Password</label>
+          <label>Name</label>
+          <input type="name" v-model="name" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" />
+        </div>
+        <div>
+          <label>Confirm Password</label>
+          <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" :pattern="password" v-model="passwordCnf"
+            title="Password mismatch | Пароли не совпадают" :required="password ? true : false" />
+          <div>
+            <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
+              Password</label>
+          </div>
+        </div>
+        <div>
+          <label>Phone</label>
+          <input type="tel" minlength="8" v-model="phone" />
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" minlength="8" v-model="address" />
+        </div>
+        <div>
+          <label>About</label>
+          <textarea minlength="8" v-model="about" />
+        </div>
+        <div class="button-wrapper">
+          <button>Submit form</button>
+        </div>
+      </q-form>
+      <button class="button-delete" @click="open = true">Delete profile</button>
+    </section>
+    <Teleport to="body">
+      <div v-if="open" class="modal" @click.stop="open = false">
+        <p>Are you sure you want to delete your profile?</p>
+        <div class="row justify-between">
+          <button class="button-delete" @click="handleDeleteProfile">Delete</button>
+          <button @click="open = false">Cancel</button>
         </div>
       </div>
-      <div>
-        <label>Phone</label>
-        <input type="tel" minlength="8" v-model="phone" />
-      </div>
-      <div>
-        <label>Address</label>
-        <input type="text" minlength="8" v-model="address" />
-      </div>
-      <div>
-        <label>About</label>
-        <textarea minlength="8" v-model="about" />
-      </div>
-      <div class="button-wrapper">
-        <button>Submit</button>
-      </div>
-    </q-form>
+    </Teleport>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, toRefs } from 'vue';
-import useProfilePatch from '../composables/useProfilePatch';
+import useProfileEdit from '../composables/useProfileEdit';
 import LoadingSpinner from 'src/components/Spinner.vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
   name: 'ProfilePatch',
   components: { LoadingSpinner },
   props: ['profile', 'toggleEditMode'],
   setup(props) {
+    const router = useRouter()
+    const open = ref(false);
     const passwordVisibility = ref(false)
     const passwordCnf = ref('');
     const password = ref('');
-    const { err, patchProfile, isLoading } = useProfilePatch();
+    const { err, patchProfile, isLoading, deleteProfile } = useProfileEdit();
     const { name, phone, address, about, email } = toRefs(props.profile);
     const handleSubmit = async () => {
       const userUpdate = {
@@ -70,6 +86,10 @@ export default defineComponent({
         props.toggleEditMode();
       }
     }
+    const handleDeleteProfile = async () => {
+      await deleteProfile()
+      router.push('/signup')
+    }
     return {
       email,
       password,
@@ -81,9 +101,70 @@ export default defineComponent({
       about,
       address,
       passwordCnf,
-      passwordVisibility
+      passwordVisibility,
+      handleDeleteProfile,
+      open
     }
   },
 });
 </script>
+
+<style>
+section {
+  position: relative;
+}
+
+.button-close {
+  position: absolute;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(48, 48, 48);
+  right: 0;
+  top: 1rem;
+  cursor: pointer;
+}
+
+.button-close:hover {
+  color: rgb(108, 108, 108);
+  box-shadow: rgb(97, 97, 97);
+}
+
+.button-delete {
+  position: absolute;
+  bottom: 0;
+  left: 2rem;
+  background-color: rgb(192, 0, 0);
+}
+
+.button-delete:hover {
+  background-color: rgb(186, 46, 46);
+}
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 20vh 30vw;
+  background-color: hsla(33, 100%, 88%, 0.616);
+}
+
+.modal p {
+  font-size: 1.5rem;
+}
+
+.modal .button-delete {
+  position: static;
+}
+
+.teleport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
 

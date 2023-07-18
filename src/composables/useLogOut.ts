@@ -18,7 +18,6 @@ const logOut = async () => {
     console.log(e);
     isLoading.value = false;
   }
-
 };
 
 const useLogOut = () => {

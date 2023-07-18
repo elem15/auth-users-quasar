@@ -1,5 +1,6 @@
 import { authApi } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
+import { setAuthStorage } from './setAuthStorage';
 
 const err: Ref = ref(null);
 const profile: Ref = ref(null);
@@ -28,8 +29,27 @@ const patchProfile = async (userUpdate: UserUpdate) => {
   }
 };
 
-const useProfilePatch = () => {
-  return { err, profile, patchProfile, isLoading };
+
+const deleteProfile = async () => {
+  err.value = null;
+  isLoading.value = true;
+  try {
+    const user = localStorage.getItem('user');
+    if (!user) throw new Error('User not saved')
+    const { userId } = JSON.parse(user);
+    await authApi.delete(`/user/${userId}`);
+    setAuthStorage();
+    err.value = null;
+    isLoading.value = false;
+  } catch (e) {
+    err.value = 'User already exist';
+    console.log(e);
+    isLoading.value = false;
+  }
 };
 
-export default useProfilePatch;
+const useProfileEdit = () => {
+  return { err, profile, patchProfile, deleteProfile, isLoading };
+};
+
+export default useProfileEdit;

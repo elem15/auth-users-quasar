@@ -3,24 +3,26 @@
     <LoadingSpinner />
   </div>
   <q-page class="items-center justify-center column">
-    <h1 class="text-h5">Sign In</h1>
-    <q-form @submit.prevent="handleSubmit">
-      <div>
-        <label>Email</label>
-        <input type="email" v-model="email" required />
-      </div>
-      <div>
-        <label>Password</label>
-        <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" required />
+    <section>
+      <h1 class="text-h5">Sign In</h1>
+      <q-form @submit.prevent="handleSubmit">
         <div>
-          <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
-            Password</label>
+          <label>Email</label>
+          <input type="email" v-model="email" required />
         </div>
-      </div>
-      <div class="button-wrapper">
-        <button>Submit</button>
-      </div>
-    </q-form>
+        <div>
+          <label>Password</label>
+          <input :type="passwordVisibility ? 'text' : 'password'" minlength="5" v-model="password" required />
+          <div>
+            <input type="checkbox" @click="passwordVisibility = !passwordVisibility"><label class="checkbox-label">Show
+              Password</label>
+          </div>
+        </div>
+        <div class="button-wrapper">
+          <button>Submit</button>
+        </div>
+      </q-form>
+    </section>
     <div class="error"><label class="alert">{{ err }}</label></div>
   </q-page>
 </template>
