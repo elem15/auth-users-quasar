@@ -5,7 +5,7 @@ const
 
 const app = express();
 
-app.use(serveStatic('./dist'));
+app.use(serveStatic('./dist/spa'));
 app.listen(port, () => {
-  console.log('sever listen on port: ', port);
+  console.log(`sever listen at port: http://localhost:${port}`);
 });
