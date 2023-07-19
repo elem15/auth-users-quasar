@@ -6,12 +6,12 @@
   "author": "Elem <elem15@yandex.ru>",
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start": "node dist/ssr/index.js",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build -m spa"
+    "build": "quasar build -m ssr"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
