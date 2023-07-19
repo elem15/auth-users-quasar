@@ -21,7 +21,7 @@ const authApi = axios.create({ baseURL: HOST });
 authApi.interceptors.request.use(async (config) => {
   const exp = sessionStorage.getItem('exp');
   let accessToken = sessionStorage.getItem('accessToken');
-  if (!exp || +exp <= Date.now() - 1000) {
+  if (!exp || +exp <= Date.now() + 5000) {
     try {
       const user = localStorage.getItem('user');
       if (!user) throw new Error('User not saved');
