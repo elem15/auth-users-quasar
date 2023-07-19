@@ -44,11 +44,14 @@
       <button class="button-delete" @click="open = true">Delete profile</button>
     </section>
     <Teleport to="body">
-      <div v-if="open" class="modal" @click.stop="open = false">
-        <p>Are you sure you want to delete your profile?</p>
-        <div class="row justify-between">
-          <button class="button-delete" @click="handleDeleteProfile">Delete</button>
-          <button @click="open = false">Cancel</button>
+      <div v-if="open" class="modal-wrapper" @click="open = false">
+        <div class="modal" @click.stop="">
+          <div class="button-close" @click="open = false">⨉</div>
+          <p>Are you sure you want to delete your profile?</p>
+          <div class="row justify-around">
+            <button class="button-delete" @click="handleDeleteProfile">Delete</button>
+            <button @click="open = false">Cancel</button>
+          </div>
         </div>
       </div>
     </Teleport>
@@ -124,6 +127,11 @@ section {
   cursor: pointer;
 }
 
+.modal .button-close {
+  right: -1.5rem;
+  top: -1.5rem
+}
+
 .button-close:hover {
   color: rgb(108, 108, 108);
   box-shadow: rgb(97, 97, 97);
@@ -140,15 +148,26 @@ section {
   background-color: rgb(186, 46, 46);
 }
 
-.modal {
+.modal-wrapper {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 999;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   padding: 20vh 30vw;
-  background-color: hsla(33, 100%, 88%, 0.616);
+  background-color: hsla(158, 53%, 30%, 0.858);
+}
+
+.modal {
+  position: relative;
+  width: 25rem;
+  padding: 2rem;
+  border-radius: 2rem;
+  background-color: rgb(246, 246, 242);
 }
 
 .modal p {
@@ -157,14 +176,6 @@ section {
 
 .modal .button-delete {
   position: static;
-}
-
-.teleport {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
 }
 </style>
 
