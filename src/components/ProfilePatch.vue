@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue';
+import { defineComponent, onUnmounted, ref, toRefs } from 'vue';
 import useProfileEdit from '../composables/useProfileEdit';
 import LoadingSpinner from 'src/components/Spinner.vue';
 import { useRouter } from 'vue-router';
@@ -93,6 +93,9 @@ export default defineComponent({
       await deleteProfile()
       router.push('/signup')
     }
+    onUnmounted(() => {
+      err.value = null;
+    })
     return {
       email,
       password,

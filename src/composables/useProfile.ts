@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { authApi } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
 
@@ -18,8 +19,13 @@ const getProfile = async () => {
     profile.value = res.data;
     isLoading.value = false;
   } catch (e) {
-    err.value = 'Incorrect login credentials';
-    console.log(e);
+    if (e instanceof AxiosError && e?.response) {
+      err.value = e.response.data.message;
+      console.log(e.response.data);
+    } else {
+      err.value = 'Incorrect login credentials';
+      console.log(e);
+    }
     isLoading.value = false;
   }
 };

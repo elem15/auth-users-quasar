@@ -22,7 +22,7 @@ h6 {
 
 label.alert {
   color: red;
-  position: absolute;
+  width: 90vw;
 }
 
 .error {
@@ -37,12 +37,13 @@ input {
   border-bottom: 1px solid #ddd;
   width: 100%;
   box-sizing: border-box;
+
+  &[type="checkbox"] {
+    margin: 10px;
+    width: 10%
+  }
 }
 
-input[type="checkbox"] {
-  margin: 10px;
-  width: 10%
-}
 
 .checkbox-label {
   display: inline;
@@ -67,15 +68,16 @@ button {
   border-radius: 2rem;
   font-size: 1rem;
   cursor: pointer;
+
+  &:hover {
+    background: #164ea7;
+  }
+
+  &:active {
+    background: #0b1e3d;
+  }
 }
 
-button:hover {
-  background: #164ea7;
-}
-
-button:active {
-  background: #0b1e3d;
-}
 
 .button-wrapper {
   text-align: right;

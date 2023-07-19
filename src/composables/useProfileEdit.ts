@@ -1,6 +1,7 @@
 import { authApi } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
 import { setAuthStorage } from './setAuthStorage';
+import { AxiosError } from 'axios';
 
 const err: Ref = ref(null);
 const profile: Ref = ref(null);
@@ -23,8 +24,13 @@ const patchProfile = async (userUpdate: UserUpdate) => {
     isLoading.value = false;
     return res.data;
   } catch (e) {
-    err.value = 'Error data updated';
-    console.log(e);
+    if (e instanceof AxiosError && e?.response) {
+      err.value = e.response.data.message;
+      console.log(e.response.data);
+    } else {
+      err.value = 'Error data updated';
+      console.log(e);
+    }
     isLoading.value = false;
   }
 };

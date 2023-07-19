@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onUnmounted, ref } from 'vue';
 import useLogin from '../composables/useLogin';
 import LoadingSpinner from 'src/components/Spinner.vue';
 import { useRouter } from 'vue-router';
@@ -47,6 +47,9 @@ export default defineComponent({
         router.push('/');
       }
     }
+    onUnmounted(() => {
+      err.value = null;
+    })
     return {
       email,
       password,
@@ -59,4 +62,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="src/css/pages.styles.css"></style>
+<style src="src/css/pages.styles.scss"></style>

@@ -1,6 +1,7 @@
 import { api } from 'src/boot/axios';
 import { Ref, ref } from 'vue';
 import { setAuthStorage } from './setAuthStorage';
+import { AxiosError } from 'axios';
 
 const err: Ref = ref(null);
 const isLoading = ref(false);
@@ -17,8 +18,13 @@ const login = async (email: string, password: string) => {
     isLoading.value = false;
     return res;
   } catch (e) {
-    err.value = 'Incorrect login credentials';
-    console.log(e);
+    if (e instanceof AxiosError && e?.response) {
+      err.value = e.response.data.message;
+      console.log(e.response.data);
+    } else {
+      err.value = 'Incorrect login credentials';
+      console.log(e);
+    }
     isLoading.value = false;
   }
 };

@@ -32,6 +32,7 @@ export default defineComponent({
     })
     onUnmounted(() => {
       profile.value = null;
+      err.value = null
     })
     const toggleEditMode = () => {
       isEdit.value = !isEdit.value;
@@ -41,4 +42,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="src/css/pages.styles.css"></style>
+<style src="src/css/pages.styles.scss"></style>
