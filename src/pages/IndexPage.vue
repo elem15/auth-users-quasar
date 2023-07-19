@@ -1,49 +1,45 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
-  </q-page>
+  <div v-if="isLoading">
+    <LoadingSpinner />
+  </div>
+  <div v-if="!isEdit">
+    <div class="error"><label class="alert">{{ err }}</label></div>
+    <ProfileView v-if="profile" :profile="profile" :toggleEditMode="toggleEditMode" />
+  </div>
+  <div v-else>
+    <ProfilePatch v-if="profile" :profile="profile" :toggleEditMode="toggleEditMode" />
+  </div>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onBeforeMount, onUnmounted, ref } from 'vue';
+import useProfile from '../composables/useProfile';
+import LoadingSpinner from 'src/components/Spinner.vue'
+import ProfileView from 'src/components/ProfileView.vue'
+import ProfilePatch from 'src/components/ProfilePatch.vue'
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
+  components: { LoadingSpinner, ProfileView, ProfilePatch },
+  setup() {
+    const isEdit = ref(false);
+    const router = useRouter()
+    const { getProfile, err, profile, isLoading } = useProfile();
+    onBeforeMount(async () => {
+      await getProfile()
+      if (err.value) router.push('/signin')
+    })
+    onUnmounted(() => {
+      profile.value = null;
+      err.value = null
+    })
+    const toggleEditMode = () => {
+      isEdit.value = !isEdit.value;
+    }
+    return { profile, err, isLoading, toggleEditMode, isEdit };
   }
 });
 </script>
+
+<style src="src/css/pages.styles.scss"></style>

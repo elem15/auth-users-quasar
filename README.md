@@ -1,6 +1,7 @@
-# auth-user (auth-user)
-
-Authentication user with JWT tokens
+# Authentication user service
+Based on [Quasar](https://quasar.dev).
+You can register, edit, delete user profile. JWT access and refresh tokens are used for authentication.  
+[Backend](https://github.com/elem15/auth-users-nestjs) based on NestJS and PostgreSQL.
 
 ## Install the dependencies
 ```bash
